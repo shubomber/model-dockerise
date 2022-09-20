@@ -1,0 +1,9 @@
+pip3 install -r requirements.txt
+
+export MLFLOW_TRACKING_URI="sqlite:///mlruns.db"
+
+python3 model_service.py
+
+mlflow models serve -m models:/SentimentAnalysis/latest -p 5050 --no-conda
+
+curl http://127.0.0.1:6060/invocations -H 'Content-Type: application/json' -d '{"instances":[ "It is a bad day"]}'
